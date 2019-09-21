@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 const OrbitControls = require('three-orbit-controls')(THREE)
+import fiber from './fiber.js'
 
 class App {
 
@@ -33,6 +34,27 @@ class App {
     this.scene.add(this.spotLight)
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+
+    this.groups = Array.from({ length: this.groupCount }, (v, i) => {
+      let group = new THREE.Group()
+      this.scene.add(group)
+
+      return {
+        group,
+        eta: (i + 1) * this.etaStep
+      }
+    })
+
+    for(let i = 0; i < this.vCount; i++) {
+      this.groups.forEach(g => {
+        g.group.add(fiber({
+            eta: g.eta,
+            phi: i * Math.PI / this.vCount,
+            color: (i + 1) / this.vCount
+          })
+        )
+      })
+    }
 
     window.addEventListener('resize', this.resize.bind(this))
     this.resize()
