@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "parcel build index.html --no-source-maps --public-url .",
+    "build": "parcel build index.html --no-source-maps --out-dir public --public-url .",
     "serve": "parcel index.html --open"
   },
   "dependencies": {
